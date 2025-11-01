@@ -17,7 +17,10 @@ class Program
         try
         {
             // Example 1: Using dependency injection
-            await RunWithDependencyInjectionExample();
+            //await RunWithDependencyInjectionExample();
+
+            // Example 1: Using factory
+            await RunWithFactoryExample();
 
         }
         catch (Exception ex)
@@ -31,6 +34,18 @@ class Program
 
         Console.WriteLine("\nPress any key to exit...");
         Console.ReadKey();
+    }
+
+    static async Task RunWithFactoryExample()
+    {
+        Console.WriteLine("Example 2: Using GeminiClientFactory");
+        Console.WriteLine("Note: This example requires proper API key configuration");
+        // Create client using factory with API key
+        var client = GeminiClientFactory.Create("AIzaSyB9BpwO1ih164l0IQEP-1reF3dNOPmqykw");
+
+        // Or create for Vertex AI:
+        // var client = GeminiClientFactory.CreateClientForVertexAI("your-project-id", "us-central1");
+        var a = await client.GenerateTextAsync("gemini-2.5-flash", "Xin chào");
     }
 
     static async Task RunWithDependencyInjectionExample()
@@ -61,7 +76,7 @@ class Program
 
         // Get the client from DI container
         var client = host.Services.GetRequiredService<IModelsService>();
-        var a = await client.GenerateContentAsync("gemini-1.5-flash", new List<Content>
+        var a = await client.GenerateContentAsync("gemini-2.5-flash", new List<Content>
         {
            new Content
            {

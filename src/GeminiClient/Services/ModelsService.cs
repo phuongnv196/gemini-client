@@ -81,7 +81,7 @@ public class ModelsService : IModelsService
             Contents = contents.ToList(),
             GenerationConfig = config?.GenerationConfig,
             SafetySettings = config?.SafetySettings ?? new List<SafetySetting>(),
-            Tools = config?.Tools ?? new List<Tool>(),
+            Tools = config?.Tools,
             ToolConfig = config?.ToolConfig,
             SystemInstruction = config?.SystemInstruction,
             CachedContent = config?.CachedContent
@@ -113,7 +113,7 @@ public class ModelsService : IModelsService
             Contents = contents.ToList(),
             GenerationConfig = config?.GenerationConfig,
             SafetySettings = config?.SafetySettings ?? new List<SafetySetting>(),
-            Tools = config?.Tools ?? new List<Tool>(),
+            Tools = config?.Tools,
             ToolConfig = config?.ToolConfig,
             SystemInstruction = config?.SystemInstruction,
             CachedContent = config?.CachedContent
@@ -153,9 +153,11 @@ public class GenerateContentRequest
     public List<SafetySetting> SafetySettings { get; set; } = new();
     
     [JsonPropertyName("tools")]
-    public List<Tool> Tools { get; set; } = new();
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public List<Tool>? Tools { get; set; }
     
     [JsonPropertyName("tool_config")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ToolConfig? ToolConfig { get; set; }
     
     [JsonPropertyName("system_instruction")]

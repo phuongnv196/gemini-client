@@ -37,13 +37,15 @@ public class GenerateContentConfig
     /// Tool configuration.
     /// </summary>
     [JsonPropertyName("tool_config")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ToolConfig? ToolConfig { get; set; }
 
     /// <summary>
     /// Tools available to the model.
     /// </summary>
     [JsonPropertyName("tools")]
-    public List<Tool> Tools { get; set; } = new();
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public List<Tool>? Tools { get; set; }
 
     /// <summary>
     /// System instruction for the model.

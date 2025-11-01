@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GoogleGenAI.Client" Version="1.0.1" />
+    <ProjectReference Include="..\..\..\src\GeminiClient\GeminiClient.csproj" />
   </ItemGroup>
 
   <ItemGroup>
