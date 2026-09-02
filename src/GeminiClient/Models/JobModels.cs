@@ -149,6 +149,24 @@ public class RequestCounts
 }
 
 /// <summary>
+/// Response for listing batch jobs.
+/// </summary>
+public class BatchJobsListResponse
+{
+    /// <summary>
+    /// The batch jobs.
+    /// </summary>
+    [JsonPropertyName("batch_jobs")]
+    public List<BatchJob>? BatchJobs { get; set; }
+
+    /// <summary>
+    /// A token, which can be sent as `page_token` to retrieve the next page.
+    /// </summary>
+    [JsonPropertyName("next_page_token")]
+    public string? NextPageToken { get; set; }
+}
+
+/// <summary>
 /// Represents a tuning job for fine-tuning models.
 /// </summary>
 public class TuningJob

@@ -260,24 +260,62 @@ public class BatchesService : IBatchesService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public Task<BatchJob> CreateAsync(CreateBatchRequest request, CancellationToken cancellationToken = default)
+    public async Task<BatchJob> CreateAsync(CreateBatchRequest request, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Batches service not yet implemented");
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
+
+        _logger.LogDebug("Creating batch job");
+
+        var endpoint = _options.GetUseVertexAI()
+            ? $"/v1/projects/{_options.GetProjectId()}/locations/{_options.GetLocation()}/publishers/google/batchJobs"
+            : $"/{_options.ApiVersion}/batchJobs";
+
+        return await _apiClient.PostAsync<CreateBatchRequest, BatchJob>(endpoint, request, cancellationToken);
     }
 
-    public Task<IEnumerable<BatchJob>> ListAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<BatchJob>> ListAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Batches service not yet implemented");
+        _logger.LogDebug("Listing batch jobs");
+
+        var endpoint = _options.GetUseVertexAI()
+            ? $"/v1/projects/{_options.GetProjectId()}/locations/{_options.GetLocation()}/publishers/google/batchJobs"
+            : $"/{_options.ApiVersion}/batchJobs";
+
+        var response = await _apiClient.GetAsync<BatchJobsListResponse>(endpoint, cancellationToken);
+        return response.BatchJobs ?? Enumerable.Empty<BatchJob>();
     }
 
-    public Task<BatchJob> GetAsync(string batchName, CancellationToken cancellationToken = default)
+    public async Task<BatchJob> GetAsync(string batchName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Batches service not yet implemented");
+        if (string.IsNullOrWhiteSpace(batchName))
+            throw new ArgumentException("Batch name cannot be null or empty", nameof(batchName));
+
+        _logger.LogDebug("Getting batch job {BatchName}", batchName);
+
+        var endpoint = _options.GetUseVertexAI() && !batchName.Contains("projects/")
+            ? $"/v1/projects/{_options.GetProjectId()}/locations/{_options.GetLocation()}/publishers/google/batchJobs/{batchName}"
+            : _options.GetUseVertexAI()
+                ? $"/v1/{batchName}"
+                : $"/{_options.ApiVersion}/{(batchName.StartsWith("batchJobs/") ? batchName : $"batchJobs/{batchName}")}";
+
+        return await _apiClient.GetAsync<BatchJob>(endpoint, cancellationToken);
     }
 
-    public Task DeleteAsync(string batchName, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string batchName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Batches service not yet implemented");
+        if (string.IsNullOrWhiteSpace(batchName))
+            throw new ArgumentException("Batch name cannot be null or empty", nameof(batchName));
+
+        _logger.LogDebug("Deleting batch job {BatchName}", batchName);
+
+        var endpoint = _options.GetUseVertexAI() && !batchName.Contains("projects/")
+            ? $"/v1/projects/{_options.GetProjectId()}/locations/{_options.GetLocation()}/publishers/google/batchJobs/{batchName}"
+            : _options.GetUseVertexAI()
+                ? $"/v1/{batchName}"
+                : $"/{_options.ApiVersion}/{(batchName.StartsWith("batchJobs/") ? batchName : $"batchJobs/{batchName}")}";
+
+        await _apiClient.DeleteAsync(endpoint, cancellationToken);
     }
 }
 

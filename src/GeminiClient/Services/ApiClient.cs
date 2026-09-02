@@ -43,6 +43,11 @@ public interface IApiClient : IDisposable
     /// Makes a POST request with streaming response.
     /// </summary>
     IAsyncEnumerable<TResponse> PostStreamAsync<TRequest, TResponse>(string endpoint, TRequest request, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Makes a DELETE request to the specified endpoint.
+    /// </summary>
+    Task DeleteAsync(string endpoint, CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -153,6 +158,23 @@ public class ApiClient : IApiClient
             _logger.LogError(ex, "Failed to deserialize response from {Endpoint}", endpoint);
             throw new GeminiException($"Failed to deserialize response: {ex.Message}", ex);
         }
+    }
+
+    public async Task DeleteAsync(string endpoint, CancellationToken cancellationToken = default)
+    {
+        ThrowIfDisposed();
+
+        _logger.LogDebug("Making DELETE request to {Endpoint}", endpoint);
+
+        var response = await ExecuteWithRetryAsync(async () =>
+        {
+            return await _httpClient.DeleteAsync(endpoint, cancellationToken);
+        }, cancellationToken);
+
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+        _logger.LogDebug("Received response from {Endpoint}: {Response}", endpoint, responseContent);
+
+        await HandleErrorResponseAsync(response, responseContent);
     }
 
     public async IAsyncEnumerable<TResponse> PostStreamAsync<TRequest, TResponse>(
