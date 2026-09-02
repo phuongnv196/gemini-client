@@ -189,22 +189,22 @@ public class FilesService : IFilesService
 
     public Task<FileMetadata> UploadAsync(Stream fileStream, string fileName, string? mimeType = null, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Files service not yet implemented");
+        return Task.FromException<FileMetadata>(new NotImplementedException("Files service not yet implemented"));
     }
 
     public Task<IEnumerable<FileMetadata>> ListAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Files service not yet implemented");
+        return Task.FromException<IEnumerable<FileMetadata>>(new NotImplementedException("Files service not yet implemented"));
     }
 
     public Task<FileMetadata> GetAsync(string fileName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Files service not yet implemented");
+        return Task.FromException<FileMetadata>(new NotImplementedException("Files service not yet implemented"));
     }
 
     public Task DeleteAsync(string fileName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Files service not yet implemented");
+        return Task.FromException(new NotImplementedException("Files service not yet implemented"));
     }
 }
 
@@ -223,27 +223,27 @@ public class CachesService : ICachesService
 
     public Task<CacheInfo> CreateAsync(CreateCacheRequest request, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Caches service not yet implemented");
+        return Task.FromException<CacheInfo>(new NotImplementedException("Caches service not yet implemented"));
     }
 
     public Task<IEnumerable<CacheInfo>> ListAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Caches service not yet implemented");
+        return Task.FromException<IEnumerable<CacheInfo>>(new NotImplementedException("Caches service not yet implemented"));
     }
 
     public Task<CacheInfo> GetAsync(string cacheName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Caches service not yet implemented");
+        return Task.FromException<CacheInfo>(new NotImplementedException("Caches service not yet implemented"));
     }
 
     public Task<CacheInfo> UpdateAsync(string cacheName, UpdateCacheRequest request, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Caches service not yet implemented");
+        return Task.FromException<CacheInfo>(new NotImplementedException("Caches service not yet implemented"));
     }
 
     public Task DeleteAsync(string cacheName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Caches service not yet implemented");
+        return Task.FromException(new NotImplementedException("Caches service not yet implemented"));
     }
 }
 
@@ -262,22 +262,22 @@ public class BatchesService : IBatchesService
 
     public Task<BatchJob> CreateAsync(CreateBatchRequest request, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Batches service not yet implemented");
+        return Task.FromException<BatchJob>(new NotImplementedException("Batches service not yet implemented"));
     }
 
     public Task<IEnumerable<BatchJob>> ListAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Batches service not yet implemented");
+        return Task.FromException<IEnumerable<BatchJob>>(new NotImplementedException("Batches service not yet implemented"));
     }
 
     public Task<BatchJob> GetAsync(string batchName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Batches service not yet implemented");
+        return Task.FromException<BatchJob>(new NotImplementedException("Batches service not yet implemented"));
     }
 
     public Task DeleteAsync(string batchName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Batches service not yet implemented");
+        return Task.FromException(new NotImplementedException("Batches service not yet implemented"));
     }
 }
 
@@ -296,22 +296,22 @@ public class TuningsService : ITuningsService
 
     public Task<TuningJob> CreateAsync(CreateTuningRequest request, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Tunings service not yet implemented");
+        return Task.FromException<TuningJob>(new NotImplementedException("Tunings service not yet implemented"));
     }
 
     public Task<IEnumerable<TuningJob>> ListAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Tunings service not yet implemented");
+        return Task.FromException<IEnumerable<TuningJob>>(new NotImplementedException("Tunings service not yet implemented"));
     }
 
     public Task<TuningJob> GetAsync(string tuningName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Tunings service not yet implemented");
+        return Task.FromException<TuningJob>(new NotImplementedException("Tunings service not yet implemented"));
     }
 
     public Task DeleteAsync(string tuningName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Tunings service not yet implemented");
+        return Task.FromException(new NotImplementedException("Tunings service not yet implemented"));
     }
 }
 
@@ -361,16 +361,16 @@ public class OperationsService : IOperationsService
 
     public Task<IEnumerable<Operation>> ListAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Operations service not yet implemented");
+        return Task.FromException<IEnumerable<Operation>>(new NotImplementedException("Operations service not yet implemented"));
     }
 
     public Task<Operation> GetAsync(string operationName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Operations service not yet implemented");
+        return Task.FromException<Operation>(new NotImplementedException("Operations service not yet implemented"));
     }
 
     public Task DeleteAsync(string operationName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException("Operations service not yet implemented");
+        return Task.FromException(new NotImplementedException("Operations service not yet implemented"));
     }
 }
