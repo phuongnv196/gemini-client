@@ -172,7 +172,11 @@ public class ApiClient : IApiClient
             return await _httpClient.PostAsync(endpoint, content, cancellationToken);
         }, cancellationToken);
 
-        //await HandleErrorResponseAsync(response, string.Empty);
+        if (!response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            await HandleErrorResponseAsync(response, responseContent);
+        }
 
         using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
         using var reader = new StreamReader(stream);
