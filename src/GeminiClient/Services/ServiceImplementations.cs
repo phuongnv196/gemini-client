@@ -333,10 +333,14 @@ public class TokensService : ITokensService
         if (string.IsNullOrWhiteSpace(modelName))
             throw new ArgumentException("Model name cannot be null or empty", nameof(modelName));
 
-        if (contents == null || !contents.Any())
+        if (contents == null)
             throw new ArgumentException("Contents cannot be null or empty", nameof(contents));
 
-        var request = new CountTokensRequest { Contents = contents.ToList() };
+        var contentsList = contents.ToList();
+        if (contentsList.Count == 0)
+            throw new ArgumentException("Contents cannot be null or empty", nameof(contents));
+
+        var request = new CountTokensRequest { Contents = contentsList };
 
         var endpoint = _options.GetUseVertexAI()
             ? $"/v1/projects/{_options.GetProjectId()}/locations/{_options.GetLocation()}/publishers/google/models/{modelName}:countTokens"
