@@ -147,7 +147,7 @@ public class GeminiClientOptions
     public void Validate()
     {
         var useVertexAI = GetUseVertexAI();
-        
+
         if (!useVertexAI)
         {
             // Gemini Developer API requires API key

@@ -51,7 +51,7 @@ public class GenerateContentResponse
     public bool IsValid()
     {
         if (!Candidates.Any()) return false;
-        
+
         var firstCandidate = Candidates.First();
         return firstCandidate.Content?.IsValid() == true;
     }

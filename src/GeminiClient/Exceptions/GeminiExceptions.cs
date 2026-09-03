@@ -44,7 +44,7 @@ public class GeminiException : Exception
     {
     }
 
-    public GeminiException(string message, string? errorCode, HttpStatusCode? statusCode = null, Dictionary<string, object>? details = null) 
+    public GeminiException(string message, string? errorCode, HttpStatusCode? statusCode = null, Dictionary<string, object>? details = null)
         : base(message)
     {
         ErrorCode = errorCode;
@@ -52,7 +52,7 @@ public class GeminiException : Exception
         Details = details;
     }
 
-    public GeminiException(string message, string? errorCode, Exception innerException, HttpStatusCode? statusCode = null, Dictionary<string, object>? details = null) 
+    public GeminiException(string message, string? errorCode, Exception innerException, HttpStatusCode? statusCode = null, Dictionary<string, object>? details = null)
         : base(message, innerException)
     {
         ErrorCode = errorCode;
@@ -70,7 +70,7 @@ public class GeminiAuthenticationException : GeminiException
     {
     }
 
-    public GeminiAuthenticationException(string message, Exception innerException) 
+    public GeminiAuthenticationException(string message, Exception innerException)
         : base(message, "AUTHENTICATION_ERROR", innerException, HttpStatusCode.Unauthorized)
     {
     }
@@ -85,12 +85,12 @@ public class GeminiBadRequestException : GeminiException
     {
     }
 
-    public GeminiBadRequestException(string message, Exception innerException) 
+    public GeminiBadRequestException(string message, Exception innerException)
         : base(message, "BAD_REQUEST", innerException, HttpStatusCode.BadRequest)
     {
     }
 
-    public GeminiBadRequestException(string message, Dictionary<string, object>? details) 
+    public GeminiBadRequestException(string message, Dictionary<string, object>? details)
         : base(message, "BAD_REQUEST", HttpStatusCode.BadRequest, details)
     {
     }
@@ -105,7 +105,7 @@ public class GeminiForbiddenException : GeminiException
     {
     }
 
-    public GeminiForbiddenException(string message, Exception innerException) 
+    public GeminiForbiddenException(string message, Exception innerException)
         : base(message, "FORBIDDEN", innerException, HttpStatusCode.Forbidden)
     {
     }
@@ -120,7 +120,7 @@ public class GeminiNotFoundException : GeminiException
     {
     }
 
-    public GeminiNotFoundException(string message, Exception innerException) 
+    public GeminiNotFoundException(string message, Exception innerException)
         : base(message, "NOT_FOUND", innerException, HttpStatusCode.NotFound)
     {
     }
@@ -136,13 +136,13 @@ public class GeminiRateLimitException : GeminiException
     /// </summary>
     public DateTimeOffset? RetryAfter { get; }
 
-    public GeminiRateLimitException(string message, DateTimeOffset? retryAfter = null) 
+    public GeminiRateLimitException(string message, DateTimeOffset? retryAfter = null)
         : base(message, "RATE_LIMIT_EXCEEDED", HttpStatusCode.TooManyRequests)
     {
         RetryAfter = retryAfter;
     }
 
-    public GeminiRateLimitException(string message, Exception innerException, DateTimeOffset? retryAfter = null) 
+    public GeminiRateLimitException(string message, Exception innerException, DateTimeOffset? retryAfter = null)
         : base(message, "RATE_LIMIT_EXCEEDED", innerException, HttpStatusCode.TooManyRequests)
     {
         RetryAfter = retryAfter;
@@ -159,13 +159,13 @@ public class GeminiContentFilteredException : GeminiException
     /// </summary>
     public List<string> BlockedCategories { get; }
 
-    public GeminiContentFilteredException(string message, List<string> blockedCategories) 
+    public GeminiContentFilteredException(string message, List<string> blockedCategories)
         : base(message, "CONTENT_FILTERED", HttpStatusCode.BadRequest)
     {
         BlockedCategories = blockedCategories ?? new List<string>();
     }
 
-    public GeminiContentFilteredException(string message, List<string> blockedCategories, Exception innerException) 
+    public GeminiContentFilteredException(string message, List<string> blockedCategories, Exception innerException)
         : base(message, "CONTENT_FILTERED", innerException, HttpStatusCode.BadRequest)
     {
         BlockedCategories = blockedCategories ?? new List<string>();
@@ -177,12 +177,12 @@ public class GeminiContentFilteredException : GeminiException
 /// </summary>
 public class GeminiServerException : GeminiException
 {
-    public GeminiServerException(string message, HttpStatusCode statusCode = HttpStatusCode.InternalServerError) 
+    public GeminiServerException(string message, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
         : base(message, "SERVER_ERROR", statusCode)
     {
     }
 
-    public GeminiServerException(string message, Exception innerException, HttpStatusCode statusCode = HttpStatusCode.InternalServerError) 
+    public GeminiServerException(string message, Exception innerException, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
         : base(message, "SERVER_ERROR", innerException, statusCode)
     {
     }
@@ -197,7 +197,7 @@ public class GeminiTimeoutException : GeminiException
     {
     }
 
-    public GeminiTimeoutException(string message, Exception innerException) 
+    public GeminiTimeoutException(string message, Exception innerException)
         : base(message, "TIMEOUT", innerException)
     {
     }
@@ -212,7 +212,7 @@ public class GeminiConfigurationException : GeminiException
     {
     }
 
-    public GeminiConfigurationException(string message, Exception innerException) 
+    public GeminiConfigurationException(string message, Exception innerException)
         : base(message, "CONFIGURATION_ERROR", innerException)
     {
     }

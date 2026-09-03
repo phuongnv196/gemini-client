@@ -39,7 +39,7 @@ public class Content
     public bool IsValid()
     {
         if (!Parts.Any()) return false;
-        
+
         return Parts.All(part => part.IsValid());
     }
 }

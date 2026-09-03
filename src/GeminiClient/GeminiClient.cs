@@ -30,7 +30,7 @@ public class GeminiClient : IGeminiClient
     private readonly GeminiClientOptions _options;
     private readonly ILogger<GeminiClient> _logger;
     private readonly IServiceProvider? _serviceProvider;
-    
+
     // Service instances
     private readonly Lazy<IModelsService> _models;
     private readonly Lazy<IChatsService> _chats;
@@ -65,39 +65,39 @@ public class GeminiClient : IGeminiClient
         _options.Validate();
 
         // Initialize services lazily to avoid circular dependencies
-        _models = new Lazy<IModelsService>(() => 
-            _serviceProvider?.GetService<IModelsService>() ?? 
+        _models = new Lazy<IModelsService>(() =>
+            _serviceProvider?.GetService<IModelsService>() ??
             new ModelsService(_apiClient, options, CreateLogger<ModelsService>()));
 
-        _chats = new Lazy<IChatsService>(() => 
+        _chats = new Lazy<IChatsService>(() =>
             _serviceProvider?.GetService<IChatsService>() ??
             new ChatsService(_apiClient, options, CreateLogger<ChatsService>(), Models));
 
-        _files = new Lazy<IFilesService>(() => 
+        _files = new Lazy<IFilesService>(() =>
             _serviceProvider?.GetService<IFilesService>() ??
             new FilesService(_apiClient, options, CreateLogger<FilesService>()));
 
-        _caches = new Lazy<ICachesService>(() => 
+        _caches = new Lazy<ICachesService>(() =>
             _serviceProvider?.GetService<ICachesService>() ??
             new CachesService(_apiClient, options, CreateLogger<CachesService>()));
 
-        _batches = new Lazy<IBatchesService>(() => 
+        _batches = new Lazy<IBatchesService>(() =>
             _serviceProvider?.GetService<IBatchesService>() ??
             new BatchesService(_apiClient, options, CreateLogger<BatchesService>()));
 
-        _tunings = new Lazy<ITuningsService>(() => 
+        _tunings = new Lazy<ITuningsService>(() =>
             _serviceProvider?.GetService<ITuningsService>() ??
             new TuningsService(_apiClient, options, CreateLogger<TuningsService>()));
 
-        _authTokens = new Lazy<ITokensService>(() => 
+        _authTokens = new Lazy<ITokensService>(() =>
             _serviceProvider?.GetService<ITokensService>() ??
             new TokensService(_apiClient, options, CreateLogger<TokensService>()));
 
-        _operations = new Lazy<IOperationsService>(() => 
+        _operations = new Lazy<IOperationsService>(() =>
             _serviceProvider?.GetService<IOperationsService>() ??
             new OperationsService(_apiClient, options, CreateLogger<OperationsService>()));
 
-        _logger.LogInformation("GeminiClient initialized with {ApiType} API", 
+        _logger.LogInformation("GeminiClient initialized with {ApiType} API",
             IsVertexAI ? "Vertex AI" : "Gemini Developer");
     }
 
@@ -198,9 +198,9 @@ public class GeminiClient : IGeminiClient
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The generated response.</returns>
     public async Task<string> GenerateTextAsync(
-        string modelName, 
-        string prompt, 
-        int? maxTokens = null, 
+        string modelName,
+        string prompt,
+        int? maxTokens = null,
         float? temperature = null,
         CancellationToken cancellationToken = default)
     {
@@ -242,9 +242,9 @@ public class GeminiClient : IGeminiClient
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>An async enumerable of response chunks.</returns>
     public async IAsyncEnumerable<string> GenerateTextStreamAsync(
-        string modelName, 
-        string prompt, 
-        int? maxTokens = null, 
+        string modelName,
+        string prompt,
+        int? maxTokens = null,
         float? temperature = null,
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
