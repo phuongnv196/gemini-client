@@ -71,14 +71,18 @@ public class ModelsService : IModelsService
         if (string.IsNullOrWhiteSpace(modelName))
             throw new ArgumentException("Model name cannot be null or empty", nameof(modelName));
 
-        if (contents == null || !contents.Any())
+        if (contents == null)
+            throw new ArgumentException("Contents cannot be null or empty", nameof(contents));
+
+        var contentsList = contents.ToList();
+        if (contentsList.Count == 0)
             throw new ArgumentException("Contents cannot be null or empty", nameof(contents));
 
         _logger.LogDebug("Generating content with model {ModelName}", modelName);
 
         var request = new GenerateContentRequest
         {
-            Contents = contents.ToList(),
+            Contents = contentsList,
             GenerationConfig = config?.GenerationConfig,
             SafetySettings = config?.SafetySettings ?? new List<SafetySetting>(),
             Tools = config?.Tools,
@@ -103,14 +107,18 @@ public class ModelsService : IModelsService
         if (string.IsNullOrWhiteSpace(modelName))
             throw new ArgumentException("Model name cannot be null or empty", nameof(modelName));
 
-        if (contents == null || !contents.Any())
+        if (contents == null)
+            throw new ArgumentException("Contents cannot be null or empty", nameof(contents));
+
+        var contentsList = contents.ToList();
+        if (contentsList.Count == 0)
             throw new ArgumentException("Contents cannot be null or empty", nameof(contents));
 
         _logger.LogDebug("Streaming content generation with model {ModelName}", modelName);
 
         var request = new GenerateContentRequest
         {
-            Contents = contents.ToList(),
+            Contents = contentsList,
             GenerationConfig = config?.GenerationConfig,
             SafetySettings = config?.SafetySettings ?? new List<SafetySetting>(),
             Tools = config?.Tools,
