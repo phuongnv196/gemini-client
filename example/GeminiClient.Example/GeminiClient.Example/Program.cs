@@ -41,7 +41,7 @@ class Program
         Console.WriteLine("Example 2: Using GeminiClientFactory");
         Console.WriteLine("Note: This example requires proper API key configuration");
         // Create client using factory with API key
-        var client = GeminiClientFactory.Create("AIzaSyB9BpwO1ih164l0IQEP-1reF3dNOPmqykw");
+        var client = GeminiClientFactory.Create("your-api-key-here");
 
         // Or create for Vertex AI:
         // var client = GeminiClientFactory.CreateClientForVertexAI("your-project-id", "us-central1");
