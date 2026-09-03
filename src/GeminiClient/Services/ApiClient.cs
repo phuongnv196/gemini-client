@@ -101,7 +101,7 @@ public class ApiClient : IApiClient
         ThrowIfDisposed();
 
         var requestJson = JsonSerializer.Serialize(request, _jsonOptions);
-        _logger.LogDebug("Making POST request to {Endpoint} with payload: {Request}", endpoint, requestJson);
+        _logger.LogDebug("Making POST request to {Endpoint}", endpoint);
 
         using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
         
@@ -111,7 +111,7 @@ public class ApiClient : IApiClient
         }, cancellationToken);
 
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        _logger.LogDebug("Received response from {Endpoint}: {Response}", endpoint, responseContent);
+        _logger.LogDebug("Received response from {Endpoint}", endpoint);
 
         await HandleErrorResponseAsync(response, responseContent);
 
@@ -139,7 +139,7 @@ public class ApiClient : IApiClient
         }, cancellationToken);
 
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        _logger.LogDebug("Received response from {Endpoint}: {Response}", endpoint, responseContent);
+        _logger.LogDebug("Received response from {Endpoint}", endpoint);
 
         await HandleErrorResponseAsync(response, responseContent);
 
@@ -163,7 +163,7 @@ public class ApiClient : IApiClient
         ThrowIfDisposed();
 
         var requestJson = JsonSerializer.Serialize(request, _jsonOptions);
-        _logger.LogDebug("Making streaming POST request to {Endpoint} with payload: {Request}", endpoint, requestJson);
+        _logger.LogDebug("Making streaming POST request to {Endpoint}", endpoint);
 
         using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
         
