@@ -84,9 +84,9 @@ public interface IGeminiClient : IDisposable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The generated response.</returns>
     Task<string> GenerateTextAsync(
-        string modelName, 
-        string prompt, 
-        int? maxTokens = null, 
+        string modelName,
+        string prompt,
+        int? maxTokens = null,
         float? temperature = null,
         CancellationToken cancellationToken = default);
 
@@ -100,9 +100,9 @@ public interface IGeminiClient : IDisposable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>An async enumerable of response chunks.</returns>
     IAsyncEnumerable<string> GenerateTextStreamAsync(
-        string modelName, 
-        string prompt, 
-        int? maxTokens = null, 
+        string modelName,
+        string prompt,
+        int? maxTokens = null,
         float? temperature = null,
         CancellationToken cancellationToken = default);
 }

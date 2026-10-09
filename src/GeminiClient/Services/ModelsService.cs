@@ -39,8 +39,8 @@ public class ModelsService : IModelsService
     public async Task<IEnumerable<Model>> ListAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogDebug("Listing available models");
-        
-        var endpoint = _options.GetUseVertexAI() 
+
+        var endpoint = _options.GetUseVertexAI()
             ? $"/v1/projects/{_options.GetProjectId()}/locations/{_options.GetLocation()}/publishers/google/models"
             : $"/{_options.ApiVersion}/models";
 
@@ -136,7 +136,7 @@ public class ModelsListResponse
 {
     [JsonPropertyName("models")]
     public List<Model>? Models { get; set; }
-    
+
     [JsonPropertyName("next_page_token")]
     public string? NextPageToken { get; set; }
 }
@@ -145,24 +145,24 @@ public class GenerateContentRequest
 {
     [JsonPropertyName("contents")]
     public List<Content> Contents { get; set; } = new();
-    
+
     [JsonPropertyName("generation_config")]
     public GenerationConfig? GenerationConfig { get; set; }
-    
+
     [JsonPropertyName("safety_settings")]
     public List<SafetySetting> SafetySettings { get; set; } = new();
-    
+
     [JsonPropertyName("tools")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public List<Tool>? Tools { get; set; }
-    
+
     [JsonPropertyName("tool_config")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ToolConfig? ToolConfig { get; set; }
-    
+
     [JsonPropertyName("system_instruction")]
     public Content? SystemInstruction { get; set; }
-    
+
     [JsonPropertyName("cached_content")]
     public string? CachedContent { get; set; }
 }

@@ -53,7 +53,12 @@ public class ApiClient : IApiClient
     private readonly HttpClient _httpClient;
     private readonly GeminiClientOptions _options;
     private readonly ILogger<ApiClient> _logger;
-    private readonly JsonSerializerOptions _jsonOptions;
+    private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+        WriteIndented = false
+    };
     private bool _disposed = false;
 
     public ApiClient(HttpClient httpClient, IOptions<GeminiClientOptions> options, ILogger<ApiClient> logger)
@@ -61,13 +66,6 @@ public class ApiClient : IApiClient
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-        _jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
-            WriteIndented = false
-        };
 
         ConfigureHttpClient();
     }
@@ -78,7 +76,7 @@ public class ApiClient : IApiClient
 
         _httpClient.BaseAddress = new Uri(_options.GetBaseUrl());
         _httpClient.Timeout = TimeSpan.FromSeconds(_options.TimeoutSeconds);
-        
+
         // Set user agent
         _httpClient.DefaultRequestHeaders.UserAgent.Clear();
         _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(_options.UserAgent);
@@ -104,7 +102,7 @@ public class ApiClient : IApiClient
         _logger.LogDebug("Making POST request to {Endpoint} with payload: {Request}", endpoint, requestJson);
 
         using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
-        
+
         var response = await ExecuteWithRetryAsync(async () =>
         {
             return await _httpClient.PostAsync(endpoint, content, cancellationToken);
@@ -156,8 +154,8 @@ public class ApiClient : IApiClient
     }
 
     public async IAsyncEnumerable<TResponse> PostStreamAsync<TRequest, TResponse>(
-        string endpoint, 
-        TRequest request, 
+        string endpoint,
+        TRequest request,
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         ThrowIfDisposed();
@@ -166,7 +164,7 @@ public class ApiClient : IApiClient
         _logger.LogDebug("Making streaming POST request to {Endpoint} with payload: {Request}", endpoint, requestJson);
 
         using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
-        
+
         var response = await ExecuteWithRetryAsync(async () =>
         {
             return await _httpClient.PostAsync(endpoint, content, cancellationToken);
@@ -217,11 +215,11 @@ public class ApiClient : IApiClient
             try
             {
                 var response = await operation();
-                
+
                 if (ShouldRetry(response))
                 {
                     response.Dispose();
-                    
+
                     if (attempt == _options.MaxRetryAttempts)
                     {
                         throw new GeminiException($"Request failed after {_options.MaxRetryAttempts} retry attempts");
@@ -231,7 +229,7 @@ public class ApiClient : IApiClient
                         response.StatusCode, delay.TotalMilliseconds, attempt + 1, _options.MaxRetryAttempts);
 
                     await Task.Delay(delay, cancellationToken);
-                    
+
                     if (_options.UseExponentialBackoff)
                     {
                         delay = TimeSpan.FromMilliseconds(Math.Min(
@@ -251,7 +249,7 @@ public class ApiClient : IApiClient
                     delay.TotalMilliseconds, attempt + 1, _options.MaxRetryAttempts);
 
                 await Task.Delay(delay, cancellationToken);
-                
+
                 if (_options.UseExponentialBackoff)
                 {
                     delay = TimeSpan.FromMilliseconds(Math.Min(
